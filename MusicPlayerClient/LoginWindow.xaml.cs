@@ -1,16 +1,18 @@
 ﻿using MusicPlayerClient.ViewModels;
-using Microsoft.Extensions.DependencyInjection; // EKLEMEYİ UNUTMA
+using Microsoft.Extensions.DependencyInjection;
 using System;
+using System.Data.SqlClient;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace MusicPlayerClient
 {
-    /// <summary>
-    /// LoginWindow.xaml etkileşim mantığı
-    /// </summary>
     public partial class LoginWindow : Window
     {
+        private readonly string connectionString = @"Data Source=LAPTOP-H4NKQOHO\SQLKODLAB;Initial Catalog=SpotifyAppDB;Integrated Security=True";
+
         public LoginWindow()
         {
             InitializeComponent();
@@ -18,14 +20,15 @@ namespace MusicPlayerClient
 
         private async void LoginButton_Click(object sender, RoutedEventArgs e)
         {
-            if (UsernameBox.Text == "zeynep" && PasswordBox.Password == "1234")
+            string username = UsernameBox.Text.Trim();
+            string password = PasswordBox.Password.Trim();
+
+            if (await IsLoginValid(username, password))
             {
-                // ServiceProvider’dan gerekli ViewModel’leri al
                 var app = (App)Application.Current;
                 var mainViewModel = app.ServiceProvider.GetRequiredService<MainViewModel>();
                 var homeViewModel = app.ServiceProvider.GetRequiredService<HomeViewModel>();
 
-                // Giriş sonrası ana ekran HomeView olacak
                 mainViewModel.CurrentView = homeViewModel;
 
                 var mainWindow = new MainWindow
@@ -43,8 +46,54 @@ namespace MusicPlayerClient
             }
         }
 
+        private async Task<bool> IsLoginValid(string username, string password)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                string query = "SELECT COUNT(*) FROM Users WHERE Username = @username AND Password = @password";
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@username", username);
+                    cmd.Parameters.AddWithValue("@password", password); // Şifreleme gerekiyorsa burada hash uygulanmalı
+
+                    await conn.OpenAsync();
+                    int result = (int)await cmd.ExecuteScalarAsync();
+                    return result > 0;
+                }
+            }
+        }
+
+        private void RegisterButton_Click(object sender, RoutedEventArgs e)
+        {
+            var registerWindow = new RegisterWindow();
+            registerWindow.Show();
+            this.Close(); // veya Hide() tercih edilebilir
+        }
+
         private void UsernameBox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            // Gerekirse kullanıcı adı için canlı validasyon
+        }
+
+        // Sürükleme özelliği
+        private void Window_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                this.DragMove();
+            }
+        }
+
+        // Pencereyi kapat
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        // Pencereyi küçült
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
         }
     }
 }

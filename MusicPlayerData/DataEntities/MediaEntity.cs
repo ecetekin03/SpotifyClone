@@ -19,5 +19,6 @@ namespace MusicPlayerData.DataEntities
 
         public virtual int? PlayerlistId { get; set; }
         public virtual PlaylistEntity? Playerlist { get; set; }
+
     }
 }

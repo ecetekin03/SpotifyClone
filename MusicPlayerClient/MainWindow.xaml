@@ -37,7 +37,7 @@
                     Grid.RowSpan="3"
                     Grid.ColumnSpan="2"
                     Background="#111"/>
-            
+
             <Border Grid.Row="0"
                     Grid.Column="0"
                     Grid.ColumnSpan="2"
@@ -68,6 +68,8 @@
 
             <ContentControl Grid.Row="1" Grid.Column="1" Content="{Binding CurrentView}" />
             <ContentControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Content="{Binding PlayerView}" />
+            <ContentControl x:Name="MainContent" />
+
 
             <ContentControl Grid.Row="1"
                             Grid.Column="0"

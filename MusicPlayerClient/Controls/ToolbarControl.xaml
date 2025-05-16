@@ -238,7 +238,7 @@
                 FontFamily="{StaticResource Raleway}"
                 FontWeight="SemiBold"
                 Command="{Binding CreatePlaylist}"
-                Content="Create playlist">
+                Content="Çalma Listesi &#xD;&#xA;Oluştur&#xD;&#xA;" Click="Button_Click">
                 <Button.Style>
 
                     <Style BasedOn="{StaticResource FlatButton}"
