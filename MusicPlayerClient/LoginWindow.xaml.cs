@@ -11,7 +11,7 @@ namespace MusicPlayerClient
 {
     public partial class LoginWindow : Window
     {
-        private readonly string connectionString = @"Data Source=LAPTOP-H4NKQOHO\SQLKODLAB;Initial Catalog=SpotifyAppDB;Integrated Security=True";
+        private readonly string connectionString = @"Data Source=TEKIN-HP-HOME;Initial Catalog=SpotifyAppDB;Integrated Security=True";
 
         public LoginWindow()
         {

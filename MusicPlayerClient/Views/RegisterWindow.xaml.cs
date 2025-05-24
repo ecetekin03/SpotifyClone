@@ -17,18 +17,30 @@ namespace MusicPlayerClient
 
         private async void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
-            string firstName = FirstNameBox.Text;
-            string lastName = LastNameBox.Text;
-            string username = UsernameBox.Text;
-            string email = EmailBox.Text;
-            string password = PasswordBox.Password;
+            string firstName = FirstNameBox.Text.Trim();
+            string lastName = LastNameBox.Text.Trim();
+            string username = UsernameBox.Text.Trim();
+            string email = EmailBox.Text.Trim();
+            string password = PasswordBox.Password.Trim();
+
+            // Alanlar boşsa kullanıcıyı uyar
+            if (string.IsNullOrWhiteSpace(firstName) ||
+                string.IsNullOrWhiteSpace(lastName) ||
+                string.IsNullOrWhiteSpace(username) ||
+                string.IsNullOrWhiteSpace(email) ||
+                string.IsNullOrWhiteSpace(password))
+            {
+                MessageBox.Show("Lütfen tüm alanları doldurun.", "Uyarı", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
 
             await RegisterUserAsync(firstName, lastName, username, password, email);
         }
 
+
         private async Task RegisterUserAsync(string firstName, string lastName, string username, string password, string email)
         {
-            string connectionString = @"Data Source=LAPTOP-H4NKQOHO\SQLKODLAB;Initial Catalog=SpotifyAppDB;Integrated Security=True";
+            string connectionString = @"Data Source=TEKIN-HP-HOME;Initial Catalog=SpotifyAppDB;Integrated Security=True";
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
