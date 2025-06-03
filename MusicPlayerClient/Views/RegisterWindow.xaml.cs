@@ -56,7 +56,7 @@ namespace MusicPlayerClient
                         cmd.Parameters.AddWithValue("@FirstName", firstName);
                         cmd.Parameters.AddWithValue("@LastName", lastName);
                         cmd.Parameters.AddWithValue("@Username", username);
-                        cmd.Parameters.AddWithValue("@Password", password); // Güvenlik için hash önerilir
+                        cmd.Parameters.AddWithValue("@Password", password);
                         cmd.Parameters.AddWithValue("@Email", email);
 
                         int rowsAffected = await cmd.ExecuteNonQueryAsync();

@@ -54,7 +54,7 @@ namespace MusicPlayerClient
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@username", username);
-                    cmd.Parameters.AddWithValue("@password", password); // Şifreleme gerekiyorsa burada hash uygulanmalı
+                    cmd.Parameters.AddWithValue("@password", password);
 
                     await conn.OpenAsync();
                     int result = (int)await cmd.ExecuteScalarAsync();
@@ -67,13 +67,10 @@ namespace MusicPlayerClient
         {
             var registerWindow = new RegisterWindow();
             registerWindow.Show();
-            this.Close(); // veya Hide() tercih edilebilir
+            this.Close(); 
         }
 
-        private void UsernameBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            // Gerekirse kullanıcı adı için canlı validasyon
-        }
+        
 
         // Sürükleme özelliği
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
